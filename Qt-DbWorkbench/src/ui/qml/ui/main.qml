@@ -1,16 +1,26 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.0
 
 Rectangle {
-    width: 360
-    height: 360
-    Text {
-        text: qsTr("Hello World")
-        anchors.centerIn: parent
-    }
-    MouseArea {
+    width: 300
+    height: 500
+
+    TabView {
         anchors.fill: parent
-        onClicked: {
-            Qt.quit();
+
+        Tab {
+            title: qsTr("Actions")
+
+            ActionsPane {
+            }
+        }
+
+        Tab {
+            title: qsTr("Connection settings")
+
+            ConnectionSettingsPane {
+            }
         }
     }
 }
