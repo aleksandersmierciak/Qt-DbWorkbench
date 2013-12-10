@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `AffiliationList` (
   PRIMARY KEY (`AffiliationListId`),
   KEY `FK_AffiliationList_FacebookProfile` (`UserId`),
   KEY `FK_AffiliationList_Affiliation` (`AffiliationId`),
-  CONSTRAINT `FK_AffiliationList_FacebookProfile` FOREIGN KEY (`UserId`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_AffiliationList_Affiliation` FOREIGN KEY (`AffiliationId`) REFERENCES `Affiliation` (`AffiliationId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_AffiliationList_Affiliation` FOREIGN KEY (`AffiliationId`) REFERENCES `Affiliation` (`AffiliationId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_AffiliationList_FacebookProfile` FOREIGN KEY (`UserId`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.AffiliationList: ~0 rows (approximately)
@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS `EventMembership` (
   PRIMARY KEY (`EventMembershipId`),
   KEY `FK_EventMembership_FacebookProfile` (`UserId`),
   KEY `FK_EventMembership_FacebookEvent` (`EventId`),
-  CONSTRAINT `FK_EventMembership_FacebookProfile` FOREIGN KEY (`UserId`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_EventMembership_FacebookEvent` FOREIGN KEY (`EventId`) REFERENCES `FacebookEvent` (`EventId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_EventMembership_FacebookEvent` FOREIGN KEY (`EventId`) REFERENCES `FacebookEvent` (`EventId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_EventMembership_FacebookProfile` FOREIGN KEY (`UserId`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.EventMembership: ~0 rows (approximately)
@@ -100,9 +100,8 @@ CREATE TABLE IF NOT EXISTS `FacebookEvent` (
 -- Dumping structure for table ZTBD.FacebookGroup
 CREATE TABLE IF NOT EXISTS `FacebookGroup` (
   `FacebookGroupId` int(11) NOT NULL AUTO_INCREMENT,
-  `Creator` longtext COLLATE utf8_polish_ci,
+  `Creator` int(11) DEFAULT NULL,
   `Description` longtext COLLATE utf8_polish_ci,
-  `GroupID` longtext COLLATE utf8_polish_ci,
   `GroupSubType` longtext COLLATE utf8_polish_ci,
   `GroupType` longtext COLLATE utf8_polish_ci,
   `LargePicture` mediumblob,
@@ -117,6 +116,8 @@ CREATE TABLE IF NOT EXISTS `FacebookGroup` (
   `Venue` int(11) DEFAULT NULL,
   PRIMARY KEY (`FacebookGroupId`),
   KEY `FK_FacebookGroup_Location` (`Venue`),
+  KEY `FK_FacebookGroup_FacebookProfile` (`Creator`),
+  CONSTRAINT `FK_FacebookGroup_FacebookProfile` FOREIGN KEY (`Creator`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_FacebookGroup_Location` FOREIGN KEY (`Venue`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
@@ -198,6 +199,24 @@ CREATE TABLE IF NOT EXISTS `FriendRelation` (
 /*!40000 ALTER TABLE `FriendRelation` ENABLE KEYS */;
 
 
+-- Dumping structure for table ZTBD.GroupMembership
+CREATE TABLE IF NOT EXISTS `GroupMembership` (
+  `GroupMembershipId` int(11) NOT NULL,
+  `FacebookGroupId` int(11) NOT NULL,
+  `UserId` int(11) DEFAULT NULL,
+  `GroupMembershipType` enum('NotReplied','Member','Officer','Admin') COLLATE utf8_polish_ci DEFAULT NULL,
+  PRIMARY KEY (`GroupMembershipId`),
+  KEY `FK_GroupMembership_FacebookProfile` (`UserId`),
+  KEY `FK_GroupMembership_FacebookGroup` (`FacebookGroupId`),
+  CONSTRAINT `FK_GroupMembership_FacebookGroup` FOREIGN KEY (`FacebookGroupId`) REFERENCES `FacebookGroup` (`FacebookGroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_GroupMembership_FacebookProfile` FOREIGN KEY (`UserId`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- Dumping data for table ZTBD.GroupMembership: ~0 rows (approximately)
+/*!40000 ALTER TABLE `GroupMembership` DISABLE KEYS */;
+/*!40000 ALTER TABLE `GroupMembership` ENABLE KEYS */;
+
+
 -- Dumping structure for table ZTBD.Location
 CREATE TABLE IF NOT EXISTS `Location` (
   `LocationId` int(11) NOT NULL AUTO_INCREMENT,
@@ -222,11 +241,13 @@ CREATE TABLE IF NOT EXISTS `Photo` (
   `LargeSource` mediumblob,
   `Link` longtext COLLATE utf8_polish_ci,
   `MediumSource` mediumblob,
-  `Owner` longtext COLLATE utf8_polish_ci,
+  `Owner` int(11) DEFAULT NULL,
   `PhotoId` int(11) NOT NULL AUTO_INCREMENT,
   `SmallSource` blob,
   PRIMARY KEY (`PhotoId`),
   KEY `FK_Photo_PhotoAlbum` (`AlbumID`),
+  KEY `FK_Photo_FacebookProfile` (`Owner`),
+  CONSTRAINT `FK_Photo_FacebookProfile` FOREIGN KEY (`Owner`) REFERENCES `FacebookProfile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Photo_PhotoAlbum` FOREIGN KEY (`AlbumID`) REFERENCES `PhotoAlbum` (`AlbumId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
