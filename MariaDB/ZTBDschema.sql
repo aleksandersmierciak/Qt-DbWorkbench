@@ -196,6 +196,36 @@ CREATE TABLE IF NOT EXISTS `PhotoTag` (
 /*!40000 ALTER TABLE `PhotoTag` ENABLE KEYS */;
 
 
+-- Dumping structure for table ZTBD.Post
+CREATE TABLE IF NOT EXISTS `Post` (
+  `PostId` int(11) NOT NULL AUTO_INCREMENT,
+  `Header` longtext COLLATE utf8_polish_ci,
+  `Text` longtext COLLATE utf8_polish_ci,
+  PRIMARY KEY (`PostId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- Dumping data for table ZTBD.Post: ~0 rows (approximately)
+/*!40000 ALTER TABLE `Post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Post` ENABLE KEYS */;
+
+
+-- Dumping structure for table ZTBD.PostList
+CREATE TABLE IF NOT EXISTS `PostList` (
+  `PostListId` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) NOT NULL DEFAULT '0',
+  `PostId` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`PostListId`),
+  KEY `FK_PostList_Profile` (`UserId`),
+  KEY `FK_PostList_Post` (`PostId`),
+  CONSTRAINT `FK_PostList_Profile` FOREIGN KEY (`UserId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_PostList_Post` FOREIGN KEY (`PostId`) REFERENCES `Post` (`PostId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- Dumping data for table ZTBD.PostList: ~0 rows (approximately)
+/*!40000 ALTER TABLE `PostList` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PostList` ENABLE KEYS */;
+
+
 -- Dumping structure for table ZTBD.Profile
 CREATE TABLE IF NOT EXISTS `Profile` (
   `AboutMe` longtext COLLATE utf8_polish_ci,
@@ -229,13 +259,30 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   KEY `FK_Profile_Profile` (`SignificantOtherId`),
   CONSTRAINT `FK_Profile_Location` FOREIGN KEY (`CurrentLocation`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Profile_Location_2` FOREIGN KEY (`HomeTownLocation`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Profile_UserStatus` FOREIGN KEY (`CurrentStatus`) REFERENCES `UserStatus` (`UserStatusId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Profile_Profile` FOREIGN KEY (`SignificantOtherId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Profile_Profile` FOREIGN KEY (`SignificantOtherId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Profile_UserStatus` FOREIGN KEY (`CurrentStatus`) REFERENCES `UserStatus` (`UserStatusId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
--- Dumping data for table ZTBD.Profile: ~2 rows (approximately)
+-- Dumping data for table ZTBD.Profile: ~0 rows (approximately)
 /*!40000 ALTER TABLE `Profile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Profile` ENABLE KEYS */;
+
+
+-- Dumping structure for table ZTBD.ReceiverPost
+CREATE TABLE IF NOT EXISTS `ReceiverPost` (
+  `ReceiverPostId` int(11) NOT NULL AUTO_INCREMENT,
+  `PostId` int(11) NOT NULL DEFAULT '0',
+  `Receiver` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ReceiverPostId`),
+  KEY `FK_ReceiverPost_Post` (`PostId`),
+  KEY `FK_ReceiverPost_Profile` (`Receiver`),
+  CONSTRAINT `FK_ReceiverPost_Post` FOREIGN KEY (`PostId`) REFERENCES `Post` (`PostId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ReceiverPost_Profile` FOREIGN KEY (`Receiver`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- Dumping data for table ZTBD.ReceiverPost: ~0 rows (approximately)
+/*!40000 ALTER TABLE `ReceiverPost` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ReceiverPost` ENABLE KEYS */;
 
 
 -- Dumping structure for table ZTBD.School
