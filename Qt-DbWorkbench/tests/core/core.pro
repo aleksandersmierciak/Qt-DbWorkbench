@@ -14,12 +14,14 @@ DEFINES += QT_NO_CAST_FROM_ASCII \
 CONFIG += c++11
 
 SOURCES += main.cpp \
-	tst_coretest.cpp
+    tst_coretest.cpp \
+    tst_posttest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-	tst_coretest.h \
+    tst_coretest.h \
+    tst_posttest.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../src/core/release/ -lcore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../src/core/debug/ -lcore
