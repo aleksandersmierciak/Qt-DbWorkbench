@@ -9,4 +9,8 @@ CONFIG += c++11
 
 HEADERS += \
 	iequatable.h \
-	ipost.h
+	ipost.h \
+	post.h
+
+SOURCES += \
+	post.cpp
