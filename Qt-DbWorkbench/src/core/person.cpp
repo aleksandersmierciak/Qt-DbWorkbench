@@ -44,6 +44,16 @@ void Person::setBirthday(QDateTime birthday)
     this->m_birthday = birthday;
 }
 
+QList<IPost *> Person::posts() const
+{
+    return this->m_posts;
+}
+
+void Person::setPosts(QList<IPost *> posts)
+{
+    this->m_posts = posts;
+}
+
 QDateTime Person::lastUpdated() const
 {
     return this->m_lastUpdated;

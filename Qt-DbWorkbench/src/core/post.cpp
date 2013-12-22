@@ -36,9 +36,17 @@ QString Post::title() const
 
 bool Post::comparisonImpl(const IPost &other) const
 {
-    return m_sender == other.sender()
+    return pointerComparisonImpl(m_sender, other.sender())
         && m_receivers == other.receivers()
         && m_creationTime == other.creationTime()
         && m_title == other.title()
         && m_content == other.content();
+}
+
+template <class T>
+bool Post::pointerComparisonImpl(T first, T second)
+{
+    return (first == second
+         || (first != nullptr && second != nullptr)
+         || *first == *second);
 }

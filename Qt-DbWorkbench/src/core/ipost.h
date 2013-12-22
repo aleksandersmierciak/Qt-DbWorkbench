@@ -8,6 +8,8 @@
 #include "iequatable.h"
 #include "iperson.h"
 
+class IPerson;
+
 class IPost : virtual public IEquatable<IPost>
 {
 public:

@@ -17,6 +17,9 @@ public:
     QDateTime birthday() const override;
     void setBirthday(QDateTime ) override;
 
+    QList<IPost *> posts() const override;
+    void setPosts(QList<IPost *> ) override;
+
     QDateTime lastUpdated() const override;
     void setLastUpdated(QDateTime ) override;
 
@@ -60,6 +63,8 @@ private:
     QString m_lastName;
     Gender m_gender;
     QDateTime m_birthday;
+
+    QList<IPost *> m_posts;
 
     QDateTime m_lastUpdated;
 

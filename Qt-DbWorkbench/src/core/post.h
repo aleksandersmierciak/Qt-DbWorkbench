@@ -1,8 +1,8 @@
 #ifndef POST_H
 #define POST_H
 
-#include "iperson.h"
 #include "ipost.h"
+#include "iperson.h"
 
 class Post : virtual public IPost
 {
@@ -24,6 +24,8 @@ private:
     QString m_content;
 
     virtual bool comparisonImpl(const IPost &other) const override;
+    template <class T>
+    static bool pointerComparisonImpl(T first, T second);
 };
 
 #endif // POST_H
