@@ -1,6 +1,4 @@
-QT       += testlib
-
-QT       -= gui
+QT       += testlib gui
 
 TARGET = tst_coretest
 CONFIG   += console
@@ -13,15 +11,17 @@ DEFINES += QT_NO_CAST_FROM_ASCII \
 
 CONFIG += c++11
 
-SOURCES += main.cpp \
-    tst_coretest.cpp \
-    tst_posttest.cpp
-
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
-
 HEADERS += \
     tst_coretest.h \
-    tst_posttest.h
+    tst_posttest.h \
+    tst_persontest.h
+
+SOURCES += main.cpp \
+    tst_coretest.cpp \
+    tst_posttest.cpp \
+    tst_persontest.cpp
+
+DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../src/core/release/ -lcore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../src/core/debug/ -lcore

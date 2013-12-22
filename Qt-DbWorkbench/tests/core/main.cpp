@@ -1,7 +1,8 @@
 #include <QtTest/QtTest>
 
-#include "tst_coretest.cpp"
-#include "tst_posttest.cpp"
+#include "tst_coretest.h"
+#include "tst_posttest.h"
+#include "tst_persontest.h"
 
 int main()
 {
@@ -10,6 +11,9 @@ int main()
 
     PostTest postTest;
     QTest::qExec(&postTest);
+
+    PersonTest personTest;
+    QTest::qExec(&personTest);
 
     return 0;
 }
