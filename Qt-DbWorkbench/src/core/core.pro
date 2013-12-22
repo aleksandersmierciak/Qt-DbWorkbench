@@ -10,7 +10,13 @@ CONFIG += c++11
 HEADERS += \
 	iequatable.h \
 	ipost.h \
-	post.h
+	post.h \
+    activitylookedfor.h \
+    gender.h \
+    relationshiptype.h
 
 SOURCES += \
-	post.cpp
+    post.cpp \
+    activitylookedfor.cpp \
+    gender.cpp \
+    relationshiptype.cpp
