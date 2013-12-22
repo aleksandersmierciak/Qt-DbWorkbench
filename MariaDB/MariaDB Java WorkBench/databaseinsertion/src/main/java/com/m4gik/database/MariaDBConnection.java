@@ -1,0 +1,162 @@
+package com.m4gik.database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+/**
+ * This class is responsible for connecting with database, fetching the data and
+ * passing values.
+ * 
+ * @author Michał Szczygieł <michal.szczygiel@wp.pl>
+ * 
+ */
+public class MariaDBConnection {
+
+    /**
+     * The filed holds connection (session) with a specific database. SQL
+     * statements are executed and results are returned within the context of a
+     * connection.
+     */
+    private static Connection conn = null;
+
+    /**
+     * To keep one instance of MariaDBConnection class.
+     */
+    private static volatile MariaDBConnection instance = null;
+    /**
+     * The object used for executing a static SQL statement and returning the
+     * results it produces.
+     */
+    private static Statement statement = null;
+
+    /**
+     * This method ends connection with database.
+     * 
+     * @throws SQLException
+     */
+    public static void endConnection() throws SQLException {
+        if (getStatement() != null) {
+            getStatement().close();
+        }
+
+        if (conn != null) {
+            conn.close();
+        }
+    }
+
+    /**
+     * This method execute query and displays results.
+     * 
+     * @param query
+     *            The query to display.
+     * @throws SQLException
+     */
+    public static void executeQuery(String query) throws SQLException {
+        // TODO : Display all
+        ResultSet result = statement.executeQuery(query);
+        ArrayList<String> stringsToDisplay = new ArrayList<String>();
+
+        while (result.next()) {
+            stringsToDisplay.add(new Integer(result.getInt("UserId"))
+                    .toString());
+        }
+
+        for (String string : stringsToDisplay) {
+            System.out.println(string);
+        }
+    }
+
+    /**
+     * This method execute prepared dtatement.
+     * 
+     * @param preparedStmt
+     *            The prepared statement to execute.
+     * @throws SQLException
+     */
+    public static void executeStatement(String query) throws SQLException {
+
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+    }
+
+    /**
+     * Double-checked locking Singleton. Private Constructor.
+     * 
+     * @return the instance
+     * @throws SQLException
+     */
+    public static MariaDBConnection getInstance(String connectionString)
+            throws SQLException {
+        if (instance == null) {
+            synchronized (MariaDBConnection.class) {
+                // Double check
+                if (instance == null) {
+                    instance = new MariaDBConnection(connectionString);
+                }
+            }
+        }
+        return instance;
+    }
+
+    /**
+     * @return the statement
+     */
+    public static Statement getStatement() {
+        return statement;
+    }
+
+    /**
+     * This method initialize connection with database.
+     * 
+     * @param connectionString
+     *            The connection string to init connection.
+     * @throws SQLException
+     */
+    public static void initConnection(String connectionString)
+            throws SQLException {
+        if (MariaDBConnection.conn == null) {
+            MariaDBConnection.conn = DriverManager
+                    .getConnection(connectionString);
+        }
+
+        if (getStatement() == null) {
+            setStatement(conn.createStatement());
+        }
+    }
+
+    /**
+     * @param statement
+     *            the statement to set
+     */
+    private static void setStatement(Statement statement) {
+        MariaDBConnection.statement = statement;
+    }
+
+    /**
+     * Private constructor to avoid the automatic creation of a default public
+     * constructor.
+     */
+    @SuppressWarnings("unused")
+    private MariaDBConnection() {
+    }
+
+    /**
+     * The constructor, initialize connection for datebase connection.
+     * 
+     * @param connectionString
+     *            The connection string to init connection.
+     * @throws SQLException
+     */
+    public MariaDBConnection(String connectionString) throws SQLException {
+        MariaDBConnection.conn = DriverManager.getConnection(connectionString);
+        MariaDBConnection.setStatement(conn.createStatement());
+    }
+
+}
