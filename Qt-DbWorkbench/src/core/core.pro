@@ -8,9 +8,10 @@ DEFINES += QT_NO_CAST_FROM_ASCII \
 CONFIG += c++11
 
 HEADERS += \
-	iequatable.h \
-	ipost.h \
-	post.h \
+    iequatable.h \
+    ipost.h \
+    post.h \
+    iperson.h \
     activitylookedfor.h \
     gender.h \
     relationshiptype.h
