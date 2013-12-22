@@ -12,12 +12,14 @@ HEADERS += \
     ipost.h \
     post.h \
     iperson.h \
+    person.h \
     activitylookedfor.h \
     gender.h \
     relationshiptype.h
 
 SOURCES += \
     post.cpp \
+    person.cpp \
     activitylookedfor.cpp \
     gender.cpp \
     relationshiptype.cpp
