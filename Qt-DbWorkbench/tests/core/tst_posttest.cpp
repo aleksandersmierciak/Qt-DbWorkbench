@@ -14,8 +14,8 @@ void PostTest::testEquality()
     QString title = QStringLiteral("Title");
     QString content = QStringLiteral("Lorem ipsum dolor sit amet...");
 
-    IPost *first = new Post(now, title, content);
-    IPost *second = new Post(now, title, content);
+    IPost *first = new Post(nullptr, QList<IPerson *>(), now, title, content);
+    IPost *second = new Post(nullptr, QList<IPerson *>(), now, title, content);
     QCOMPARE(*first == *second, true);
 }
 
@@ -28,8 +28,8 @@ void PostTest::testInequality()
     QFETCH(QString, title2);
     QFETCH(QString, content2);
 
-    IPost *first = new Post(creationTime1, title1, content1);
-    IPost *second = new Post(creationTime2, title2, content2);
+    IPost *first = new Post(nullptr, QList<IPerson *>(), creationTime1, title1, content1);
+    IPost *second = new Post(nullptr, QList<IPerson *>(), creationTime2, title2, content2);
     QCOMPARE(first == second, false);
 }
 

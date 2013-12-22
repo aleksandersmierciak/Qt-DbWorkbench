@@ -2,9 +2,11 @@
 #define IPOST_H
 
 #include <QDateTime>
+#include <QList>
 #include <QString>
 
 #include "iequatable.h"
+#include "iperson.h"
 
 class IPost : virtual public IEquatable<IPost>
 {
@@ -15,9 +17,8 @@ public:
     IPost(const IPost &) = delete;
     IPost &operator =(const IPost &) = delete;
 
-    // TODO: create a sender property
-    // TODO: create a recipients collection property
-
+    virtual IPerson *sender() const = 0;
+    virtual QList<IPerson *> receivers() const = 0;
     virtual QDateTime creationTime() const = 0;
     virtual QString title() const = 0;
     virtual QString content() const = 0;
