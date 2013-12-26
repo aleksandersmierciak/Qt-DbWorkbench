@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS `Event` (
   `UpdatedTime` datetime DEFAULT NULL,
   `AttendanceStatus` enum('Attending','Declined','NotReplied','NotSpecified','Unsure') COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`EventId`),
-  KEY `FK_FacebookEvent_FacebookProfile` (`Creator`),
-  KEY `FK_FacebookEvent_Location` (`Location`),
-  CONSTRAINT `FK_FacebookEvent_FacebookProfile` FOREIGN KEY (`Creator`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_FacebookEvent_Location` FOREIGN KEY (`Location`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_Event_Location` (`Location`),
+  KEY `FK_Event_Profile` (`Creator`),
+  CONSTRAINT `FK_Event_Profile` FOREIGN KEY (`Creator`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Event_Location` FOREIGN KEY (`Location`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.Event: ~0 rows (approximately)
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS `Group` (
   PRIMARY KEY (`GroupId`),
   KEY `FK_Group_Profile` (`Creator`),
   KEY `FK_Group_Location` (`Location`),
-  CONSTRAINT `FK_Group_Profile` FOREIGN KEY (`Creator`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Group_Location` FOREIGN KEY (`Location`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Group_Location` FOREIGN KEY (`Location`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Group_Profile` FOREIGN KEY (`Creator`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.Group: ~0 rows (approximately)
@@ -106,13 +106,13 @@ CREATE TABLE IF NOT EXISTS `Group` (
 -- Dumping structure for table ZTBD.GroupMembership
 CREATE TABLE IF NOT EXISTS `GroupMembership` (
   `GroupMembershipId` int(11) NOT NULL,
-  `FacebookGroupId` int(11) NOT NULL,
+  `GroupId` int(11) NOT NULL,
   `UserId` int(11) DEFAULT NULL,
   `GroupMembershipType` enum('NotReplied','Member','Officer','Admin') COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`GroupMembershipId`),
-  KEY `FK_GroupMembership_Group` (`FacebookGroupId`),
+  KEY `FK_GroupMembership_Group` (`GroupId`),
   KEY `FK_GroupMembership_Profile` (`UserId`),
-  CONSTRAINT `FK_GroupMembership_Group` FOREIGN KEY (`FacebookGroupId`) REFERENCES `Group` (`GroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_GroupMembership_Group` FOREIGN KEY (`GroupId`) REFERENCES `Group` (`GroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_GroupMembership_Profile` FOREIGN KEY (`UserId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
@@ -149,8 +149,8 @@ CREATE TABLE IF NOT EXISTS `Photo` (
   PRIMARY KEY (`PhotoId`),
   KEY `FK_Photo_PhotoAlbum` (`AlbumID`),
   KEY `FK_Photo_Profile` (`Owner`),
-  CONSTRAINT `FK_Photo_Profile` FOREIGN KEY (`Owner`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Photo_PhotoAlbum` FOREIGN KEY (`AlbumID`) REFERENCES `PhotoAlbum` (`AlbumId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Photo_PhotoAlbum` FOREIGN KEY (`AlbumID`) REFERENCES `PhotoAlbum` (`AlbumId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Photo_Profile` FOREIGN KEY (`Owner`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.Photo: ~0 rows (approximately)
@@ -217,8 +217,8 @@ CREATE TABLE IF NOT EXISTS `PostList` (
   PRIMARY KEY (`PostListId`),
   KEY `FK_PostList_Profile` (`UserId`),
   KEY `FK_PostList_Post` (`PostId`),
-  CONSTRAINT `FK_PostList_Profile` FOREIGN KEY (`UserId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_PostList_Post` FOREIGN KEY (`PostId`) REFERENCES `Post` (`PostId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_PostList_Post` FOREIGN KEY (`PostId`) REFERENCES `Post` (`PostId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_PostList_Profile` FOREIGN KEY (`UserId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.PostList: ~0 rows (approximately)
@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `Profile` (
   CONSTRAINT `FK_Profile_Location_2` FOREIGN KEY (`HomeTownLocation`) REFERENCES `Location` (`LocationId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Profile_Profile` FOREIGN KEY (`SignificantOtherId`) REFERENCES `Profile` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Profile_UserStatus` FOREIGN KEY (`CurrentStatus`) REFERENCES `UserStatus` (`UserStatusId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Dumping data for table ZTBD.Profile: ~0 rows (approximately)
 /*!40000 ALTER TABLE `Profile` DISABLE KEYS */;
