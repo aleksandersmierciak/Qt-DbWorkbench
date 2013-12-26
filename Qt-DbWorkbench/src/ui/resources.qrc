@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/ui/ActionsPane.qml</file>
+        <file>qml/ui/ConnectionSettingsPane.qml</file>
+        <file>qml/ui/CredentialsInput.qml</file>
+        <file>qml/ui/main.qml</file>
+    </qresource>
+</RCC>
