@@ -2,6 +2,7 @@ package com.m4gik.util;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Random;
 
 /**
  * This class is represents table inside database and is responsible for
@@ -66,7 +67,9 @@ public class Profile {
             + "`PictureURL`,`PoliticalViews`,`Religion`, `SignificantOtherId`,`UpdateTime`,`UserId`,"
             + "`ProfileGender`,`LookingForGenders`, `ProfileLookingFor`, `ProfileRelationship`, "
             + "`CurrentLocation`, `HomeTownLocation`, `CurrentStatus`) "
-            + " values (?,?)";
+            + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    private Random random = new Random(0);
 
     private String religion;
 
@@ -150,6 +153,7 @@ public class Profile {
      * @return the firstname
      */
     public String getFirstname() {
+        firstname = Container.firstNames[getRandom(Container.firstNames.length)];
         return firstname;
     }
 
@@ -171,6 +175,7 @@ public class Profile {
      * @return the lastname
      */
     public String getLastname() {
+        lastname = Container.lastNames[getRandom(Container.lastNames.length)];
         return lastname;
     }
 
@@ -186,6 +191,13 @@ public class Profile {
      */
     public String getPoliticanViews() {
         return politicanViews;
+    }
+
+    /**
+     * @return the random
+     */
+    public Integer getRandom(Integer value) {
+        return random.nextInt(value);
     }
 
     /**
@@ -216,163 +228,4 @@ public class Profile {
         return userId;
     }
 
-    /**
-     * @param aboutMe
-     *            the aboutMe to set
-     */
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    /**
-     * @param activities
-     *            the activities to set
-     */
-    public void setActivities(String activities) {
-        this.activities = activities;
-    }
-
-    /**
-     * @param birthday
-     *            the birthday to set
-     */
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    /**
-     * @param currentLocation
-     *            the currentLocation to set
-     */
-    public void setCurrentLocation(Integer currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
-    /**
-     * @param currentStatus
-     *            the currentStatus to set
-     */
-    public void setCurrentStatus(Integer currentStatus) {
-        this.currentStatus = currentStatus;
-    }
-
-    /**
-     * @param favouriteBooks
-     *            the favouriteBooks to set
-     */
-    public void setFavouriteBooks(String favouriteBooks) {
-        this.favouriteBooks = favouriteBooks;
-    }
-
-    /**
-     * @param favouriteMovies
-     *            the favouriteMovies to set
-     */
-    public void setFavouriteMovies(String favouriteMovies) {
-        this.favouriteMovies = favouriteMovies;
-    }
-
-    /**
-     * @param favouriteMusic
-     *            the favouriteMusic to set
-     */
-    public void setFavouriteMusic(String favouriteMusic) {
-        this.favouriteMusic = favouriteMusic;
-    }
-
-    /**
-     * @param favouriteQuotes
-     *            the favouriteQuotes to set
-     */
-    public void setFavouriteQuotes(String favouriteQuotes) {
-        this.favouriteQuotes = favouriteQuotes;
-    }
-
-    /**
-     * @param favouriteTVShows
-     *            the favouriteTVShows to set
-     */
-    public void setFavouriteTVShows(String favouriteTVShows) {
-        this.favouriteTVShows = favouriteTVShows;
-    }
-
-    /**
-     * @param firstname
-     *            the firstname to set
-     */
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    /**
-     * @param homeTownLocation
-     *            the homeTownLocation to set
-     */
-    public void setHomeTownLocation(Integer homeTownLocation) {
-        this.homeTownLocation = homeTownLocation;
-    }
-
-    /**
-     * @param interests
-     *            the interests to set
-     */
-    public void setInterests(String interests) {
-        this.interests = interests;
-    }
-
-    /**
-     * @param lastname
-     *            the lastname to set
-     */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    /**
-     * @param pictureURL
-     *            the pictureURL to set
-     */
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
-    }
-
-    /**
-     * @param politicanViews
-     *            the politicanViews to set
-     */
-    public void setPoliticanViews(String politicanViews) {
-        this.politicanViews = politicanViews;
-    }
-
-    /**
-     * @param religion
-     *            the religion to set
-     */
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    /**
-     * @param significantOtherId
-     *            the significantOtherId to set
-     */
-    public void setSignificantOtherId(Integer significantOtherId) {
-        this.significantOtherId = significantOtherId;
-    }
-
-    /**
-     * @param updateTime
-     *            the updateTime to set
-     */
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
-     * @param userId
-     *            the userId to set
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }
