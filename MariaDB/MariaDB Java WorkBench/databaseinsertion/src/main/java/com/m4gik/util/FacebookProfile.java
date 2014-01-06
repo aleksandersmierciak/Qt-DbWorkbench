@@ -24,7 +24,7 @@ public class FacebookProfile {
         Engaged, InAnOpenRelationShip, InARelationhip, IsSingle, ItsComplicated, Married, Unspecified
     }
 
-    private static String exampleQuery = "SELECT `AboutMe`, `Activities`, `UserId` FROM `ZTBD`.`FacebookProfile`";
+    private static String exampleQuery = "SELECT `AboutMe`, `Activities`, `UserId` FROM `ZTBD`.`Profile`";
 
     public static String makeExampleQuery() {
         return exampleQuery;

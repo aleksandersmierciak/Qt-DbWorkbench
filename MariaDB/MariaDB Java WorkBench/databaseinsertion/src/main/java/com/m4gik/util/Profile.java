@@ -1,6 +1,9 @@
 package com.m4gik.util;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -77,7 +80,29 @@ public class Profile {
 
     private Timestamp updateTime;
 
+    /**
+     * Primary key.
+     */
     private Integer userId;
+
+    /**
+     * This method prepares sql statement to insert auto-generated data.
+     * 
+     * @param conn
+     * @return The prepared statement.
+     */
+    public PreparedStatement createInsert(Connection conn) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
 
     /**
      * @return the aboutMe

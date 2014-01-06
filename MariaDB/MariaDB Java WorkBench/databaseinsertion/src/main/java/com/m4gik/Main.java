@@ -20,8 +20,12 @@ public class Main {
      * @throws SQLException
      */
     public static void main(final String... args) throws SQLException {
-        MariaDBConnection.getInstance(args[0]);
-        System.out.println("Working");
-        MariaDBConnection.executeQuery(FacebookProfile.makeExampleQuery());
+        if (args.length < 1) {
+            MariaDBConnection.getInstance(args[0]);
+            System.out.println("Working");
+            MariaDBConnection.executeQuery(FacebookProfile.makeExampleQuery());
+        } else {
+            System.out.println("Connection string is missing");
+        }
     }
 }
