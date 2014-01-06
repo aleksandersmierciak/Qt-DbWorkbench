@@ -21,7 +21,8 @@ HEADERS += \
     gender.h \
     relationshiptype.h \
     dbconnectiondata.h \
-    dbconnectorbase.h
+    dbconnectorbase.h \
+    mariadbconnector.h
 
 SOURCES += \
     post.cpp \
@@ -30,4 +31,5 @@ SOURCES += \
     gender.cpp \
     relationshiptype.cpp \
     dbconnectiondata.cpp \
-    dbconnectorbase.cpp
+    dbconnectorbase.cpp \
+    mariadbconnector.cpp
