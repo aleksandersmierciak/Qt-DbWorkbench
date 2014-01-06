@@ -20,7 +20,8 @@ HEADERS += \
     activitylookedfor.h \
     gender.h \
     relationshiptype.h \
-    dbconnectiondata.h
+    dbconnectiondata.h \
+    dbconnectorbase.h
 
 SOURCES += \
     post.cpp \
@@ -28,4 +29,5 @@ SOURCES += \
     activitylookedfor.cpp \
     gender.cpp \
     relationshiptype.cpp \
-    dbconnectiondata.cpp
+    dbconnectiondata.cpp \
+    dbconnectorbase.cpp
