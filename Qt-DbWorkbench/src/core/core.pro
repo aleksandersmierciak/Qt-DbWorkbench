@@ -19,11 +19,13 @@ HEADERS += \
     person.h \
     activitylookedfor.h \
     gender.h \
-    relationshiptype.h
+    relationshiptype.h \
+    dbconnectiondata.h
 
 SOURCES += \
     post.cpp \
     person.cpp \
     activitylookedfor.cpp \
     gender.cpp \
-    relationshiptype.cpp
+    relationshiptype.cpp \
+    dbconnectiondata.cpp
