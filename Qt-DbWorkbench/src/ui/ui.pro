@@ -11,7 +11,9 @@ OTHER_FILES += \
 	qml/ui/main.qml \
 	qml/ui/ActionsPane.qml \
 	qml/ui/ConnectionSettingsPane.qml \
-	qml/ui/CredentialsInput.qml
+	qml/ui/CredentialsInput.qml \
+    qml/ui/PersonView.qml \
+    qml/ui/PersonViewWindow.qml
 
 RESOURCES += \
     resources.qrc
