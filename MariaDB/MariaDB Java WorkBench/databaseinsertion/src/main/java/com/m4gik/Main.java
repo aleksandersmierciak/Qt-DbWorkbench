@@ -15,11 +15,12 @@ public class Main {
      * Main method.
      * 
      * @param args
+     *            jdbc:mysql://kulisz.eu:3306/mszczygiel_ZTBD?user=xxx&
+     *            password=xxx
      * @throws SQLException
      */
-    public static void main(String[] args) throws SQLException {
-        MariaDBConnection
-                .getInstance("jdbc:mysql://127.0.0.1:3306/ZTBD?user=root&password=root");
+    public static void main(final String... args) throws SQLException {
+        MariaDBConnection.getInstance(args[0]);
         System.out.println("Working");
         MariaDBConnection.executeQuery(FacebookProfile.makeExampleQuery());
     }
