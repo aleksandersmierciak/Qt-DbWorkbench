@@ -22,7 +22,8 @@ HEADERS += \
     relationshiptype.h \
     dbconnectiondata.h \
     dbconnectorbase.h \
-    mariadbconnector.h
+    mariadbconnector.h \
+    mongodbconnector.h
 
 SOURCES += \
     post.cpp \
@@ -32,4 +33,5 @@ SOURCES += \
     relationshiptype.cpp \
     dbconnectiondata.cpp \
     dbconnectorbase.cpp \
-    mariadbconnector.cpp
+    mariadbconnector.cpp \
+    mongodbconnector.cpp
