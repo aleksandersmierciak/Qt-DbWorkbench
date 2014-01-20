@@ -1,4 +1,4 @@
-package com.m4gik.util;
+package com.m4gik.common;
 
 /**
  * This class containts all static fields, for generating radnom data.
