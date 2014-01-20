@@ -2,7 +2,6 @@ package com.m4gik.common;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -54,7 +53,7 @@ public class UserStatus implements Insertion {
      * @throws SQLException
      */
     public UserStatus(Integer maxInserts) throws SQLException {
-        this.userStatusId = findFreeId();
+        this.userStatusId = MariaDBConnection.findFreeId(MAX_USER_ID);
         setMaxInserts(maxInserts);
     }
 
@@ -78,18 +77,6 @@ public class UserStatus implements Insertion {
         }
 
         return preparedStatement;
-    }
-
-    /**
-     * This method finds first free id.
-     * 
-     * @return
-     * @throws SQLException
-     */
-    private Integer findFreeId() throws SQLException {
-        ResultSet result = MariaDBConnection.executeQuery(MAX_USER_ID);
-        result.next();
-        return result.getInt(1) + 1;
     }
 
     /**

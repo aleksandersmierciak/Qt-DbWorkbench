@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Calendar;
@@ -119,7 +118,7 @@ public class Profile implements Insertion {
      * @throws SQLException
      */
     public Profile(Integer maxInserts) throws SQLException {
-        this.userId = findFreeId();
+        this.userId = MariaDBConnection.findFreeId(MAX_USER_ID);
         logger.info("First free id: " + userId.toString());
         setMaxInserts(maxInserts);
     }
@@ -163,25 +162,13 @@ public class Profile implements Insertion {
                             ProfileRelationShip.class).random().toString());
             preparedStatement.setInt(22, 1);
             preparedStatement.setInt(23, 1);
-            preparedStatement.setInt(24, 1);
+            preparedStatement.setInt(24, getCurrentStatus());
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return preparedStatement;
-    }
-
-    /**
-     * This method finds first free id.
-     * 
-     * @return
-     * @throws SQLException
-     */
-    private Integer findFreeId() throws SQLException {
-        ResultSet result = MariaDBConnection.executeQuery(MAX_USER_ID);
-        result.next();
-        return result.getInt(1) + 1;
     }
 
     /**
@@ -228,6 +215,9 @@ public class Profile implements Insertion {
      * @return the currentStatus
      */
     public Integer getCurrentStatus() {
+        String query = "SELECT COUNT(UserStatusId) FROM "
+                + MariaDBConnection.DATABASE_NAME + ".`UserStatus`";
+
         return currentStatus;
     }
 
@@ -319,16 +309,16 @@ public class Profile implements Insertion {
         try {
             messageDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         byte[] bytesOfMessage = null;
         try {
             bytesOfMessage = getUserId().toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         pictureURL = "http://socialpage.com/"
                 + messageDigest.digest(bytesOfMessage).toString();
         return pictureURL;
@@ -385,7 +375,7 @@ public class Profile implements Insertion {
      * This method starts process for insert random data to database.
      */
     public void insertRandomData() {
-        logger.info("Process for insert data is running");
+        logger.info("Process for insert data into Profile is running");
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
                 MariaDBConnection
