@@ -43,6 +43,7 @@ public class Container {
     public static final String cities[] = { "Kraków", "Amsterdam", "Berlin",
             "Helsinki", "Hong Kong", "London", "Luxemburg", "New York", "Oslo",
             "Paris", "Rome", "Stockholm", "Tokyo", "Turku" };
+
     /**
      * Sample first names.
      */
@@ -55,7 +56,6 @@ public class Container {
     public static final String[] lastNames = { "Smith", "Gordon", "Simpson",
             "Brown", "Clavel", "Simons", "Verne", "Scott", "Allison", "Gates",
             "Rowling", "Barks", "Ross", "Schneider", "Tate", "Szczygieł" };
-
     /**
      * Sample movies.
      */
@@ -101,6 +101,13 @@ public class Container {
     public static final String religions[] = { "General", "Buddhism",
             "Christianity", "Hinduism", "Islam", "Judaism", "Mormonism",
             "Sikhism" };
+
+    /**
+     * Sample status.
+     */
+    public static final String status[] = { "available", "waiting", "sleeping",
+            "coding", "hacking", "nothing", "eating", "inaccessible", "brb",
+            "afk", "w8" };
 
     /**
      * Sample streets.
