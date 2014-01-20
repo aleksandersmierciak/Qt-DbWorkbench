@@ -23,7 +23,7 @@ import com.m4gik.database.MariaDBConnection;
  * @author Michał Szczygieł <michal.szczygiel@wp.pl>
  * 
  */
-public class Profile {
+public class Profile implements Insertion {
 
     private enum Gender {
         Female, Male, Unspecified
@@ -50,7 +50,8 @@ public class Profile {
     /**
      * Query to be executed on database
      */
-    private static final String MAX_USER_ID = "SELECT MAX(UserId) FROM `mszczygiel_ZTBD`.`Profile`";
+    private static final String MAX_USER_ID = "SELECT MAX(UserId) FROM "
+            + MariaDBConnection.DATABASE_NAME + ".`Profile`";
 
     private String aboutMe;
 
@@ -86,7 +87,9 @@ public class Profile {
 
     private String politicanViews;
 
-    private String query = "INSERT INTO `mszczygiel_ZTBD`.`Profile` (`AboutMe`, "
+    private String query = "INSERT INTO "
+            + MariaDBConnection.DATABASE_NAME
+            + ".`Profile` (`AboutMe`, "
             + "`Activities`,`Birthday`,`FavoriteBooks`, `FavoriteMovies`,`FavoriteMusic`,"
             + "`FavoriteQuotes`,`FavoriteTVShows`, `Firstname`,`Lastname`,`Interests`,"
             + "`PictureURL`,`PoliticalViews`,`Religion`, `SignificantOtherId`,`UpdateTime`,`UserId`,"
@@ -126,11 +129,8 @@ public class Profile {
      * 
      * @param conn
      * @return The prepared statement.
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
      */
-    public PreparedStatement createInsert(Connection conn)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public PreparedStatement createInsert(Connection conn) {
         PreparedStatement preparedStatement = null;
 
         try {
@@ -314,10 +314,21 @@ public class Profile {
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
-    public String getPictureURL() throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
-        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-        byte[] bytesOfMessage = getUserId().toString().getBytes("UTF-8");
+    public String getPictureURL() {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        byte[] bytesOfMessage = null;
+        try {
+            bytesOfMessage = getUserId().toString().getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         pictureURL = "http://socialpage.com/"
                 + messageDigest.digest(bytesOfMessage).toString();
         return pictureURL;
@@ -380,10 +391,6 @@ public class Profile {
                 MariaDBConnection
                         .executeStatement(createInsert(MariaDBConnection
                                 .getConn()));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

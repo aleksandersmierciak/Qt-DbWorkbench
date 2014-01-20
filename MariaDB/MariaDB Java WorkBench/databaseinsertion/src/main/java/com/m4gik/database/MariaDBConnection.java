@@ -25,6 +25,11 @@ public class MariaDBConnection {
     private static Connection conn = null;
 
     /**
+     * This filed represents the name for database.
+     */
+    public static final String DATABASE_NAME = "`mszczygiel_ZTBD`";
+
+    /**
      * To keep one instance of MariaDBConnection class.
      */
     private static volatile MariaDBConnection instance = null;
