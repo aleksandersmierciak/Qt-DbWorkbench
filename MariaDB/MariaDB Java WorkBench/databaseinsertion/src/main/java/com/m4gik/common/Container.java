@@ -1,5 +1,7 @@
 package com.m4gik.common;
 
+import java.util.Locale;
+
 /**
  * This class containts all static fields, for generating radnom data.
  * 
@@ -43,6 +45,11 @@ public class Container {
     public static final String cities[] = { "Kraków", "Amsterdam", "Berlin",
             "Helsinki", "Hong Kong", "London", "Luxemburg", "New York", "Oslo",
             "Paris", "Rome", "Stockholm", "Tokyo", "Turku" };
+
+    /**
+     * All countries.
+     */
+    public static final String[] countries = Locale.getISOCountries();
 
     /**
      * Sample first names.
