@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * This class is responsible for connecting with database, fetching the data and
@@ -28,6 +28,12 @@ public class MariaDBConnection {
      * To keep one instance of MariaDBConnection class.
      */
     private static volatile MariaDBConnection instance = null;
+
+    /**
+     * Logger for event registration.
+     */
+    private final static Logger logger = Logger
+            .getLogger(MariaDBConnection.class.getName());
     /**
      * The object used for executing a static SQL statement and returning the
      * results it produces.
@@ -56,34 +62,32 @@ public class MariaDBConnection {
      *            The query to display.
      * @throws SQLException
      */
-    public static void executeQuery(String query) throws SQLException {
-        // TODO : Display all
+    public static ResultSet executeQuery(String query) throws SQLException {
         ResultSet result = statement.executeQuery(query);
-        ArrayList<String> stringsToDisplay = new ArrayList<String>();
 
-        while (result.next()) {
-            stringsToDisplay.add(new Integer(result.getInt("UserId"))
-                    .toString());
-        }
+        // TODO : Display all
+        // ArrayList<String> stringsToDisplay = new ArrayList<String>();
 
-        for (String string : stringsToDisplay) {
-            System.out.println(string);
-        }
+        return result;
     }
 
     /**
-     * This method execute prepared dtatement.
+     * This method execute prepared statement.
      * 
      * @param preparedStmt
      *            The prepared statement to execute.
      * @throws SQLException
      */
-    public static void executeStatement(String query) throws SQLException {
-
-        PreparedStatement preparedStmt = conn.prepareStatement(query);
-
-        // execute the preparedstatement
+    public static void executeStatement(PreparedStatement preparedStmt)
+            throws SQLException {
         preparedStmt.execute();
+    }
+
+    /**
+     * @return the conn
+     */
+    public static Connection getConn() {
+        return conn;
     }
 
     /**
@@ -129,6 +133,14 @@ public class MariaDBConnection {
         if (getStatement() == null) {
             setStatement(conn.createStatement());
         }
+    }
+
+    /**
+     * @param conn
+     *            the conn to set
+     */
+    public static void setConn(Connection conn) {
+        MariaDBConnection.conn = conn;
     }
 
     /**
