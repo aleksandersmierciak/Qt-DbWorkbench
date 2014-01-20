@@ -39,6 +39,7 @@ public class MariaDBConnection {
      */
     private final static Logger logger = Logger
             .getLogger(MariaDBConnection.class.getName());
+
     /**
      * The object used for executing a static SQL statement and returning the
      * results it produces.
@@ -86,6 +87,18 @@ public class MariaDBConnection {
     public static void executeStatement(PreparedStatement preparedStmt)
             throws SQLException {
         preparedStmt.execute();
+    }
+
+    /**
+     * This method finds first free id.
+     * 
+     * @return Free id which can be allocated.
+     * @throws SQLException
+     */
+    public static Integer findFreeId(String query) throws SQLException {
+        ResultSet result = MariaDBConnection.executeQuery(query);
+        result.next();
+        return result.getInt(1) + 1;
     }
 
     /**
