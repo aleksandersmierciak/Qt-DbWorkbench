@@ -27,8 +27,13 @@ public class Location implements Insertion {
     /**
      * Query to be executed on database
      */
-    private static final String MAX_LOCATION_ID = "SELECT MAX(LocationId) FROM "
+    public static final String MAX_LOCATION_ID = "SELECT MAX(LocationId) FROM "
             + MariaDBConnection.DATABASE_NAME + ".`Location`";
+
+    public static final String QUERY = "INSERT INTO "
+            + MariaDBConnection.DATABASE_NAME
+            + ".`Location` (`LocationId`, `City`, `Country`, `State`, `Street`, `ZipCode`) "
+            + " VALUES (?,?,?,?,?,?)";
 
     private String city;
 
@@ -37,11 +42,6 @@ public class Location implements Insertion {
     private Integer locationId;
 
     private Integer maxInserts;
-
-    private String query = "INSERT INTO "
-            + MariaDBConnection.DATABASE_NAME
-            + ".`Location` (`LocationId`, `City`, `Country`, `State`, `Street`, `ZipCode`) "
-            + " VALUES (?,?,?,?,?,?)";
 
     private Random random = new Random(0);
 
@@ -73,7 +73,7 @@ public class Location implements Insertion {
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = conn.prepareStatement(query);
+            preparedStatement = conn.prepareStatement(QUERY);
             preparedStatement.setInt(1, getLocationId());
             preparedStatement.setString(2, getCity());
             preparedStatement.setString(3, getCountry());

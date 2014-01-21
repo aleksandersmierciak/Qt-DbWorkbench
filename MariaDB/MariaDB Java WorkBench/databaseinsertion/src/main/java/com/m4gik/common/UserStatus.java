@@ -31,11 +31,12 @@ public class UserStatus implements Insertion {
     private static final String MAX_USER_ID = "SELECT MAX(UserStatusId) FROM "
             + MariaDBConnection.DATABASE_NAME + ".`UserStatus`";
 
-    private Integer maxInserts;
-
-    private String query = "INSERT INTO " + MariaDBConnection.DATABASE_NAME
+    public final static String QUERY = "INSERT INTO "
+            + MariaDBConnection.DATABASE_NAME
             + ".`UserStatus` (`UserStatusId`, `Status`, `UpdateTime`) "
             + " VALUES (?,?,?)";
+
+    private Integer maxInserts;
 
     private Random random = new Random(0);
 
@@ -48,8 +49,9 @@ public class UserStatus implements Insertion {
     private Integer userStatusId;
 
     /**
-     * The constructor for {@link UserStatus}.
+     * he constructor for {@link UserStatus}.
      * 
+     * @param maxInserts
      * @throws SQLException
      */
     public UserStatus(Integer maxInserts) throws SQLException {
@@ -68,7 +70,7 @@ public class UserStatus implements Insertion {
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = conn.prepareStatement(query);
+            preparedStatement = conn.prepareStatement(QUERY);
             preparedStatement.setInt(1, getUserStatusId());
             preparedStatement.setString(2, getStatus());
             preparedStatement.setTimestamp(3, getUpdateTime());

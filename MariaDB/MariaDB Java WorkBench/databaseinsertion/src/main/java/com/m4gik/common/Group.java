@@ -35,7 +35,7 @@ public class Group implements Insertion {
     /**
      * Query to be executed on database
      */
-    private static final String MAX_GROUP_ID = "SELECT MAX(GroupId) FROM "
+    public static final String MAX_GROUP_ID = "SELECT MAX(GroupId) FROM "
             + MariaDBConnection.DATABASE_NAME + ".`Group`";
 
     public final static String QUERY = "INSERT INTO "

@@ -50,8 +50,18 @@ public class Profile implements Insertion {
     /**
      * Query to be executed on database
      */
-    private static final String MAX_USER_ID = "SELECT MAX(UserId) FROM "
+    public static final String MAX_USER_ID = "SELECT MAX(UserId) FROM "
             + MariaDBConnection.DATABASE_NAME + ".`Profile`";
+
+    public final static String QUERY = "INSERT INTO "
+            + MariaDBConnection.DATABASE_NAME
+            + ".`Profile` (`AboutMe`, "
+            + "`Activities`,`Birthday`,`FavoriteBooks`, `FavoriteMovies`,`FavoriteMusic`,"
+            + "`FavoriteQuotes`,`FavoriteTVShows`, `Firstname`,`Lastname`,`Interests`,"
+            + "`PictureURL`,`PoliticalViews`,`Religion`, `SignificantOtherId`,`UpdateTime`,`UserId`,"
+            + "`ProfileGender`,`LookingForGenders`, `ProfileLookingFor`, `ProfileRelationship`, "
+            + "`CurrentLocation`, `HomeTownLocation`, `CurrentStatus`) "
+            + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     private String aboutMe;
 
@@ -86,16 +96,6 @@ public class Profile implements Insertion {
     private String pictureURL;
 
     private String politicanViews;
-
-    private String query = "INSERT INTO "
-            + MariaDBConnection.DATABASE_NAME
-            + ".`Profile` (`AboutMe`, "
-            + "`Activities`,`Birthday`,`FavoriteBooks`, `FavoriteMovies`,`FavoriteMusic`,"
-            + "`FavoriteQuotes`,`FavoriteTVShows`, `Firstname`,`Lastname`,`Interests`,"
-            + "`PictureURL`,`PoliticalViews`,`Religion`, `SignificantOtherId`,`UpdateTime`,`UserId`,"
-            + "`ProfileGender`,`LookingForGenders`, `ProfileLookingFor`, `ProfileRelationship`, "
-            + "`CurrentLocation`, `HomeTownLocation`, `CurrentStatus`) "
-            + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     private Random random = new Random(0);
 
@@ -139,7 +139,7 @@ public class Profile implements Insertion {
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = conn.prepareStatement(query);
+            preparedStatement = conn.prepareStatement(QUERY);
             preparedStatement.setString(1, getAboutMe());
             preparedStatement.setString(2, getActivities());
             preparedStatement.setDate(3, getBirthday());
