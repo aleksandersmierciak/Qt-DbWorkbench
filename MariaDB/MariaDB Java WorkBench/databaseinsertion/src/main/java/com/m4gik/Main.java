@@ -10,6 +10,7 @@ import com.m4gik.common.Group;
 import com.m4gik.common.GroupMembership;
 import com.m4gik.common.Location;
 import com.m4gik.common.Post;
+import com.m4gik.common.PostList;
 import com.m4gik.common.Profile;
 import com.m4gik.common.School;
 import com.m4gik.common.SchoolList;
@@ -79,6 +80,9 @@ public class Main {
 
         Post post = new Post(amount);
         post.insertRandomData();
+
+        PostList postList = new PostList(amount);
+        postList.insertRandomData();
 
         long end_time = System.nanoTime();
         logger.info("Total operation time: "
