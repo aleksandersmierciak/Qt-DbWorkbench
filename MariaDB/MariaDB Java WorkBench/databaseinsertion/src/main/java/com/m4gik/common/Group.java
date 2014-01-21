@@ -19,7 +19,7 @@ import com.m4gik.database.MariaDBConnection;
 
 /**
  * 
- * his class is responsible for generate data for Group table.
+ * This class is responsible for generate data for Group table.
  * 
  * @author Michał Szczygieł <michal.szczygiel@wp.pl>
  * 
@@ -112,7 +112,7 @@ public class Group implements Insertion {
      */
     public Integer getCreator() throws SQLException {
         creator = randBetween(1,
-                MariaDBConnection.findFreeId(Profile.MAX_USER_ID));
+                MariaDBConnection.findFreeId(Profile.MAX_USER_ID) - 1);
         return creator;
     }
 
@@ -228,7 +228,7 @@ public class Group implements Insertion {
      */
     public void insertRandomData() {
         long start_time = System.nanoTime();
-        logger.info("Process for insert data into UserStatus is running");
+        logger.info("Process for insert data into Group is running");
 
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
