@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.m4gik.common.Event;
+import com.m4gik.common.EventMembership;
 import com.m4gik.common.Group;
 import com.m4gik.common.GroupMembership;
 import com.m4gik.common.Location;
@@ -51,6 +52,9 @@ public class Main {
 
         Event event = new Event(amount);
         event.insertRandomData();
+
+        EventMembership eventMembership = new EventMembership(amount);
+        eventMembership.insertRandomData();
 
         long end_time = System.nanoTime();
         logger.info("Total operation time: "

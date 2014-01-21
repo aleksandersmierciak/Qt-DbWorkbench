@@ -9,56 +9,56 @@ import com.m4gik.database.MariaDBConnection;
 
 /**
  * 
- * This class is responsible for generate data for GroupMembership table.
+ * This class is responsible for generate data for EventMembership table.
  * 
  * @author Michał Szczygieł <michal.szczygiel@wp.pl>
  * 
  */
-public class GroupMembership implements Insertion {
+public class EventMembership implements Insertion {
 
-    private enum GroupMembershipType {
-        Admin, Member, NotReplied, Officer
+    private enum AttendanceStatus {
+        Attending, Declined, NotReplied, NotSpecified, Unsure
     }
 
     /**
      * Logger for event registration.
      */
-    private final static Logger logger = Logger.getLogger(GroupMembership.class
+    private final static Logger logger = Logger.getLogger(EventMembership.class
             .getName());
 
     /**
      * Query to be executed on database
      */
-    public static final String MAX_GROUPMEMBERSHIP_ID = "SELECT MAX(GroupMembershipId) FROM "
-            + MariaDBConnection.DATABASE_NAME + ".`GroupMembership`";
+    public static final String MAX_EVENTMEMBERSHIP_ID = "SELECT MAX(EventMembershipId) FROM "
+            + MariaDBConnection.DATABASE_NAME + ".`EventMembership`";
 
     public final static String QUERY = "INSERT INTO "
             + MariaDBConnection.DATABASE_NAME
-            + ".`GroupMembership` (`GroupMembershipId`, `GroupId`, `UserId`, `GroupMembershipType`) "
+            + ".`EventMembership` (`EventMembershipId`, `UserId`, `EventId`, `AttendanceStatus`) "
             + " VALUES (?,?,?,?)";
 
-    private Integer groupId;
+    private Integer eventId;
 
-    private Integer groupMembershipId;
+    private Integer eventMembershipId;
 
     private Integer maxInserts;
 
     private Integer userId;
 
     /**
-     * The constructor for {@link GroupMembership} class.
+     * The constructor for {@link EventMembership} class.
      * 
      * @param maxInserts
      * @throws SQLException
      */
-    public GroupMembership(Integer maxInserts) throws SQLException {
-        groupMembershipId = MariaDBConnection
-                .findFreeId(MAX_GROUPMEMBERSHIP_ID);
+    public EventMembership(Integer maxInserts) throws SQLException {
+        eventMembershipId = MariaDBConnection
+                .findFreeId(MAX_EVENTMEMBERSHIP_ID);
         setMaxInserts(maxInserts);
     }
 
     /**
-     * This method create insert for GroupMembership table.
+     * This method create insert for EventMembership table.
      * 
      * This method overrides an existing method.
      * 
@@ -69,11 +69,11 @@ public class GroupMembership implements Insertion {
 
         try {
             preparedStatement = conn.prepareStatement(QUERY);
-            preparedStatement.setInt(1, getGroupMembershipId());
-            preparedStatement.setInt(2, getGroupId());
-            preparedStatement.setInt(3, getUserId());
-            preparedStatement.setString(4, new RandomEnum<GroupMembershipType>(
-                    GroupMembershipType.class).random().toString());
+            preparedStatement.setInt(1, getEventMembershipId());
+            preparedStatement.setInt(2, getUserId());
+            preparedStatement.setInt(3, getEventId());
+            preparedStatement.setString(4, new RandomEnum<AttendanceStatus>(
+                    AttendanceStatus.class).random().toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,20 +82,20 @@ public class GroupMembership implements Insertion {
     }
 
     /**
-     * @return the groupId
+     * @return the eventId
      * @throws SQLException
      */
-    public Integer getGroupId() throws SQLException {
-        groupId = randBetween(1,
-                MariaDBConnection.findFreeId(Group.MAX_GROUP_ID) - 1);
-        return groupId;
+    public Integer getEventId() throws SQLException {
+        eventId = randBetween(1,
+                MariaDBConnection.findFreeId(Event.MAX_EVENT_ID) - 1);
+        return eventId;
     }
 
     /**
-     * @return the groupMembershipId
+     * @return the eventMembership
      */
-    public Integer getGroupMembershipId() {
-        return groupMembershipId++;
+    public Integer getEventMembershipId() {
+        return eventMembershipId++;
     }
 
     /**
@@ -124,7 +124,7 @@ public class GroupMembership implements Insertion {
      */
     public void insertRandomData() {
         long start_time = System.nanoTime();
-        logger.info("Process for insert data into GroupMembership is running");
+        logger.info("Process for insert data into EventMembership is running");
 
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
