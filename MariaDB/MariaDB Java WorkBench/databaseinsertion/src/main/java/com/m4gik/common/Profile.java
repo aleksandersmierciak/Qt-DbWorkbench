@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Calendar;
@@ -120,6 +121,11 @@ public class Profile implements Insertion {
     public Profile(Integer maxInserts) throws SQLException {
         this.userId = MariaDBConnection.findFreeId(MAX_USER_ID);
         logger.info("First free id: " + userId.toString());
+
+        if (userId <= 1) {
+            initFirstRow();
+        }
+
         setMaxInserts(maxInserts);
     }
 
@@ -160,8 +166,8 @@ public class Profile implements Insertion {
             preparedStatement.setString(21,
                     new RandomEnum<ProfileRelationShip>(
                             ProfileRelationShip.class).random().toString());
-            preparedStatement.setInt(22, 1);
-            preparedStatement.setInt(23, 1);
+            preparedStatement.setInt(22, getCurrentLocation());
+            preparedStatement.setInt(23, getHomeTownLocation());
             preparedStatement.setInt(24, getCurrentStatus());
 
         } catch (SQLException e) {
@@ -206,18 +212,27 @@ public class Profile implements Insertion {
 
     /**
      * @return the currentLocation
+     * @throws SQLException
      */
-    public Integer getCurrentLocation() {
+    public Integer getCurrentLocation() throws SQLException {
+        String query = "SELECT COUNT(LocationId) FROM "
+                + MariaDBConnection.DATABASE_NAME + ".`Location`";
+        ResultSet result = MariaDBConnection.executeQuery(query);
+        result.next();
+        currentLocation = randBetween(1, result.getInt(1));
         return currentLocation;
     }
 
     /**
      * @return the currentStatus
+     * @throws SQLException
      */
-    public Integer getCurrentStatus() {
+    public Integer getCurrentStatus() throws SQLException {
         String query = "SELECT COUNT(UserStatusId) FROM "
                 + MariaDBConnection.DATABASE_NAME + ".`UserStatus`";
-
+        ResultSet result = MariaDBConnection.executeQuery(query);
+        result.next();
+        currentStatus = randBetween(1, result.getInt(1));
         return currentStatus;
     }
 
@@ -271,8 +286,14 @@ public class Profile implements Insertion {
 
     /**
      * @return the homeTownLocation
+     * @throws SQLException
      */
-    public Integer getHomeTownLocation() {
+    public Integer getHomeTownLocation() throws SQLException {
+        String query = "SELECT COUNT(LocationId) FROM "
+                + MariaDBConnection.DATABASE_NAME + ".`Location`";
+        ResultSet result = MariaDBConnection.executeQuery(query);
+        result.next();
+        homeTownLocation = randBetween(1, result.getInt(1));
         return homeTownLocation;
     }
 
@@ -314,7 +335,7 @@ public class Profile implements Insertion {
 
         byte[] bytesOfMessage = null;
         try {
-            bytesOfMessage = getUserId().toString().getBytes("UTF-8");
+            bytesOfMessage = userId.toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -349,9 +370,15 @@ public class Profile implements Insertion {
 
     /**
      * @return the significantOtherId
+     * @throws SQLException
      */
-    public Integer getSignificantOtherId() {
-        significantOtherId = randBetween(1, getUserId() - 1);
+    public Integer getSignificantOtherId() throws SQLException {
+        if (userId >= 1) {
+            significantOtherId = randBetween(1, userId - 1);
+        } else {
+            significantOtherId = 0;
+        }
+
         return significantOtherId;
     }
 
@@ -372,10 +399,30 @@ public class Profile implements Insertion {
     }
 
     /**
+     * This method initialize first row.
+     * 
+     * @throws SQLException
+     */
+    private void initFirstRow() throws SQLException {
+        String query = "INSERT INTO "
+                + MariaDBConnection.DATABASE_NAME
+                + ".`Profile` (`AboutMe` ,"
+                + "`Activities` ,`Birthday` ,`FavoriteBooks` ,`FavoriteMovies` ,`FavoriteMusic` ,`FavoriteQuotes` ,"
+                + "`FavoriteTVShows` ,`Firstname` ,`Lastname` ,`Interests` ,`PictureURL` ,`PoliticalViews` ,"
+                + "`Religion` ,`SignificantOtherId` ,`UpdateTime` ,`UserId` ,`ProfileGender` ,`LookingForGenders` ,"
+                + "`ProfileLookingFor` ,`ProfileRelationship` ,`CurrentLocation` ,`HomeTownLocation` ,`CurrentStatus`)"
+                + " VALUES (NULL , NULL , NULL , NULL , NULL , NULL , NULL , NULL , '', '',"
+                + " NULL , NULL , NULL , NULL , NULL , NULL , '0', NULL , NULL , NULL , NULL , NULL , NULL , NULL)";
+        MariaDBConnection.executeUpdate(query);
+    }
+
+    /**
      * This method starts process for insert random data to database.
      */
     public void insertRandomData() {
+        long start_time = System.nanoTime();
         logger.info("Process for insert data into Profile is running");
+
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
                 MariaDBConnection
@@ -385,7 +432,10 @@ public class Profile implements Insertion {
                 e.printStackTrace();
             }
         }
-        logger.info("End of process");
+
+        long end_time = System.nanoTime();
+        logger.info("End of process (time operation: "
+                + ((end_time - start_time) / 1e6) + " milliseconds)");
     }
 
     /**
@@ -396,8 +446,6 @@ public class Profile implements Insertion {
      * @return Value between given range.
      */
     public Integer randBetween(int start, int end) {
-        logger.warning(start + " " + end + " "
-                + (start + (int) Math.round(Math.random() * (end - start))));
         return start + (int) Math.round(Math.random() * (end - start));
     }
 

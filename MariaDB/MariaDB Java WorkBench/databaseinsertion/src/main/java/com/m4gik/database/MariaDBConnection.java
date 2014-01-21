@@ -65,7 +65,7 @@ public class MariaDBConnection {
      * This method execute query and displays results.
      * 
      * @param query
-     *            The query to display.
+     *            The query to execute.
      * @throws SQLException
      */
     public static ResultSet executeQuery(String query) throws SQLException {
@@ -87,6 +87,17 @@ public class MariaDBConnection {
     public static void executeStatement(PreparedStatement preparedStmt)
             throws SQLException {
         preparedStmt.execute();
+    }
+
+    /**
+     * This method update query.
+     * 
+     * @param query
+     *            The query to update.
+     * @throws SQLException
+     */
+    public static void executeUpdate(String query) throws SQLException {
+        statement.executeUpdate(query);
     }
 
     /**

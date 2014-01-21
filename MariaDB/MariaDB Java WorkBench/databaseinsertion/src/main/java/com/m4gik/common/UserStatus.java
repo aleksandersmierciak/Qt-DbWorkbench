@@ -128,7 +128,9 @@ public class UserStatus implements Insertion {
      * This method insert random data into database structure.
      */
     public void insertRandomData() {
+        long start_time = System.nanoTime();
         logger.info("Process for insert data into UserStatus is running");
+
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
                 MariaDBConnection
@@ -138,7 +140,10 @@ public class UserStatus implements Insertion {
                 e.printStackTrace();
             }
         }
-        logger.info("End of process");
+
+        long end_time = System.nanoTime();
+        logger.info("End of process (time operation: "
+                + ((end_time - start_time) / 1e6) + " milliseconds)");
     }
 
     /**

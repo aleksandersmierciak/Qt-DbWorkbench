@@ -3,6 +3,8 @@ package com.m4gik;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import com.m4gik.common.Location;
+import com.m4gik.common.Profile;
 import com.m4gik.common.UserStatus;
 import com.m4gik.database.MariaDBConnection;
 
@@ -25,10 +27,19 @@ public class Main {
      * @throws SQLException
      */
     private static void fillDatabase(Integer amount) throws SQLException {
+        long start_time = System.nanoTime();
         UserStatus userStatus = new UserStatus(amount / 10);
         userStatus.insertRandomData();
-        // Profile profile = new Profile(amount);
-        // profile.insertRandomData();
+
+        Location location = new Location(amount);
+        location.insertRandomData();
+
+        Profile profile = new Profile(amount);
+        profile.insertRandomData();
+
+        long end_time = System.nanoTime();
+        logger.info("Total operation time: "
+                + (((end_time - start_time) / 1e9)) + " sec.");
     }
 
     /**
