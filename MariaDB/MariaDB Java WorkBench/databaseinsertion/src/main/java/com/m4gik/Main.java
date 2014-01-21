@@ -43,7 +43,7 @@ public class Main {
     private static void fillDatabase(Integer amount) throws SQLException {
         long start_time = System.nanoTime();
 
-        UserStatus userStatus = new UserStatus(amount / 10);
+        UserStatus userStatus = new UserStatus(amount);
         userStatus.insertRandomData();
 
         Location location = new Location(amount);
@@ -52,7 +52,7 @@ public class Main {
         Profile profile = new Profile(amount);
         profile.insertRandomData();
 
-        Group group = new Group(amount / 10);
+        Group group = new Group(amount);
         group.insertRandomData();
 
         GroupMembership groupMembership = new GroupMembership(amount);
