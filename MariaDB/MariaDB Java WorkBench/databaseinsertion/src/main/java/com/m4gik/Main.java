@@ -12,6 +12,7 @@ import com.m4gik.common.Location;
 import com.m4gik.common.Profile;
 import com.m4gik.common.UserStatus;
 import com.m4gik.common.WorkPlace;
+import com.m4gik.common.WorkPlaceList;
 import com.m4gik.database.MariaDBConnection;
 
 /**
@@ -63,6 +64,9 @@ public class Main {
 
         WorkPlace workPlace = new WorkPlace(amount);
         workPlace.insertRandomData();
+
+        WorkPlaceList workPlaceList = new WorkPlaceList(amount);
+        workPlaceList.insertRandomData();
 
         long end_time = System.nanoTime();
         logger.info("Total operation time: "
