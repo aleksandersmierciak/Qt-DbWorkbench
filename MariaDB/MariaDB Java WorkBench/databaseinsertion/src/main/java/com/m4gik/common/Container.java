@@ -47,14 +47,22 @@ public class Container {
             "Paris", "Rome", "Stockholm", "Tokyo", "Turku" };
 
     /**
+     * Sample concentrations.
+     */
+    public static final String concentrations[] = { "Financial Accounting ",
+            "Microeconomics", "Statistics", "Finance", "Marketing", "I.T.",
+            "Strategy", "Environmental and Energy Law",
+            "Anthropology and Sociology", "Health Law and Bioethics" };
+
+    /**
      * All countries.
      */
-    public static final String[] countries = Locale.getISOCountries();
+    public static final String countries[] = Locale.getISOCountries();
 
     /**
      * Sample first names.
      */
-    public static final String[] firstNames = { "Peter", "Alice", "Joshua",
+    public static final String firstNames[] = { "Peter", "Alice", "Joshua",
             "Mike", "Olivia", "Nina", "Alex", "Rita", "Dan", "Umberto",
             "Henrik", "Rene", "Lisa", "Marge", "Michał" };
 
@@ -67,7 +75,7 @@ public class Container {
     /**
      * Sample last names.
      */
-    public static final String[] lastNames = { "Smith", "Gordon", "Simpson",
+    public static final String lastNames[] = { "Smith", "Gordon", "Simpson",
             "Brown", "Clavel", "Simons", "Verne", "Scott", "Allison", "Gates",
             "Rowling", "Barks", "Ross", "Schneider", "Tate", "Szczygieł" };
     /**
@@ -82,7 +90,7 @@ public class Container {
     /**
      * Sample music.
      */
-    public static final String[] music = { "Nirvana - In Bloom",
+    public static final String music[] = { "Nirvana - In Bloom",
             "Cat Stevens - If you want to sing out", "Your Song - Elton John",
             "ATC - All Around The World (la la la la la la la la)",
             "Goo Goo Dolls - Slide", "Nirvana - Come As You Are",

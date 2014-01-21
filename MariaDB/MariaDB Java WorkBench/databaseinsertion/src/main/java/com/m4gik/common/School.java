@@ -1,59 +1,67 @@
 package com.m4gik.common;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import com.m4gik.database.MariaDBConnection;
 
 /**
  * 
- * This class is responsible for generate data for WorkPlaceList table.
+ * This class is responsible for generate data for School table.
  * 
  * @author Michał Szczygieł <michal.szczygiel@wp.pl>
  * 
  */
-public class WorkPlaceList implements Insertion {
+public class School implements Insertion {
 
     /**
      * Logger for event registration.
      */
-    private final static Logger logger = Logger.getLogger(WorkPlaceList.class
+    private final static Logger logger = Logger.getLogger(School.class
             .getName());
 
     /**
      * Query to be executed on database
      */
-    public static final String MAX_WORKPLACELIST_ID = "SELECT MAX(WorkPlaceListId) FROM "
-            + MariaDBConnection.DATABASE_NAME + ".`WorkPlaceList`";
+    public static final String MAX_SCHOOL_ID = "SELECT MAX(SchoolId) FROM "
+            + MariaDBConnection.DATABASE_NAME + ".`School`";
 
     public final static String QUERY = "INSERT INTO "
             + MariaDBConnection.DATABASE_NAME
-            + ".`WorkPlaceList` (`WorkPlaceListId`, `UserId`, `WorkPlaceId`) "
-            + " VALUES (?,?,?)";
+            + ".`School` (`SchoolId`, `Concentrations`, `GraduationYear`, `Name`) "
+            + " VALUES (?,?,?,?)";
+
+    private String concentrations;
+
+    private String graduationYear;
 
     private Integer maxInserts;
 
-    private Integer userId;
+    private String name;
 
-    private Integer workPlaceId;
+    private Random random = new Random(0);
 
-    private Integer workPlaceListId;
+    private Integer schoolId;
 
     /**
-     * The constructor for {@link WorkPlaceList} class.
+     * The constructor for {@link School} class.
      * 
      * @param maxInserts
      * @throws SQLException
      */
-    public WorkPlaceList(Integer maxInserts) throws SQLException {
-        workPlaceListId = MariaDBConnection.findFreeId(MAX_WORKPLACELIST_ID);
+    public School(Integer maxInserts) throws SQLException {
+        schoolId = MariaDBConnection.findFreeId(MAX_SCHOOL_ID);
         setMaxInserts(maxInserts);
     }
 
     /**
-     * This method create insert for WorkPlaceList table.
+     * This method create insert for School table.
      * 
      * This method overrides an existing method.
      * 
@@ -64,14 +72,39 @@ public class WorkPlaceList implements Insertion {
 
         try {
             preparedStatement = conn.prepareStatement(QUERY);
-            preparedStatement.setInt(1, getWorkPlaceListId());
-            preparedStatement.setInt(2, getUserId());
-            preparedStatement.setInt(3, getWorkPlaceId());
+            preparedStatement.setInt(1, getSchoolId());
+            preparedStatement.setString(2, getConcentrations());
+            preparedStatement.setString(3, getGraduationYear());
+            preparedStatement.setString(4, getName());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return preparedStatement;
+    }
+
+    /**
+     * @return the concentrations
+     */
+    public String getConcentrations() {
+        concentrations = Container.concentrations[getRandom(Container.concentrations.length)];
+        return concentrations;
+    }
+
+    /**
+     * @return the graduationYear
+     */
+    public String getGraduationYear() {
+        GregorianCalendar gc = new GregorianCalendar();
+        Integer year = randBetween(1930, 2000);
+        gc.set(Calendar.YEAR, year);
+
+        Integer dayOfYear = randBetween(1,
+                gc.getActualMaximum(Calendar.DAY_OF_YEAR));
+        gc.set(Calendar.DAY_OF_YEAR, dayOfYear);
+
+        graduationYear = new Date(gc.getTime().getTime()).toString();
+        return graduationYear;
     }
 
     /**
@@ -82,30 +115,26 @@ public class WorkPlaceList implements Insertion {
     }
 
     /**
-     * @return the userId
-     * @throws SQLException
+     * @return the name
      */
-    public Integer getUserId() throws SQLException {
-        userId = randBetween(1,
-                MariaDBConnection.findFreeId(Profile.MAX_USER_ID) - 1);
-        return userId;
+    public String getName() {
+        name = "School of "
+                + Container.lastNames[getRandom(Container.lastNames.length)];
+        return name;
     }
 
     /**
-     * @return the workPlaceId
-     * @throws SQLException
+     * @return the random
      */
-    public Integer getWorkPlaceId() throws SQLException {
-        workPlaceId = randBetween(1,
-                MariaDBConnection.findFreeId(WorkPlace.MAX_WORKPLACE_ID) - 1);
-        return workPlaceId;
+    public Integer getRandom(Integer value) {
+        return random.nextInt(value);
     }
 
     /**
-     * @return the workPlaceList
+     * @return the schoolId
      */
-    public Integer getWorkPlaceListId() {
-        return workPlaceListId++;
+    public Integer getSchoolId() {
+        return schoolId++;
     }
 
     /**
@@ -117,7 +146,7 @@ public class WorkPlaceList implements Insertion {
      */
     public void insertRandomData() {
         long start_time = System.nanoTime();
-        logger.info("Process for insert data into WorkPlaceList is running");
+        logger.info("Process for insert data into School is running");
 
         for (int i = 0; i < getMaxInserts(); i++) {
             try {
@@ -152,5 +181,4 @@ public class WorkPlaceList implements Insertion {
     public void setMaxInserts(Integer maxInserts) {
         this.maxInserts = maxInserts;
     }
-
 }

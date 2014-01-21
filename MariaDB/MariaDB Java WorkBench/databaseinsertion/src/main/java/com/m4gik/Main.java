@@ -10,6 +10,7 @@ import com.m4gik.common.Group;
 import com.m4gik.common.GroupMembership;
 import com.m4gik.common.Location;
 import com.m4gik.common.Profile;
+import com.m4gik.common.School;
 import com.m4gik.common.UserStatus;
 import com.m4gik.common.WorkPlace;
 import com.m4gik.common.WorkPlaceList;
@@ -67,6 +68,9 @@ public class Main {
 
         WorkPlaceList workPlaceList = new WorkPlaceList(amount);
         workPlaceList.insertRandomData();
+
+        School school = new School(amount);
+        school.insertRandomData();
 
         long end_time = System.nanoTime();
         logger.info("Total operation time: "
