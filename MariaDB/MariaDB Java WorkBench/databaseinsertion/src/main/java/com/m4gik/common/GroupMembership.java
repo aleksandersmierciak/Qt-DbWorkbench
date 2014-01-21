@@ -58,7 +58,7 @@ public class GroupMembership implements Insertion {
     }
 
     /**
-     * This method create insert for UserStatus table.
+     * This method create insert for GroupMembership table.
      * 
      * This method overrides an existing method.
      * 

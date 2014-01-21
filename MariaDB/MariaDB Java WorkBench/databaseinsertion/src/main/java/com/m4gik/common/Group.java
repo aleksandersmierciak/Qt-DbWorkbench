@@ -77,7 +77,7 @@ public class Group implements Insertion {
     }
 
     /**
-     * This method create insert for UserStatus table.
+     * This method create insert for Group table.
      * 
      * This method overrides an existing method.
      * 
