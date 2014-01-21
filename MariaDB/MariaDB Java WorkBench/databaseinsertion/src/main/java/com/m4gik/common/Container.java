@@ -63,6 +63,7 @@ public class Container {
      */
     public static final String groupTypes[] = { "open", "private", "public",
             "closed" };
+
     /**
      * Sample last names.
      */
@@ -78,7 +79,6 @@ public class Container {
             "Pride & Prejudice", "Walking Tall", "Hugo", "Admiral",
             "The Dead Zone", "Character", "Blazing Saddles", "The Corporation",
             "Lady Vengeance" };
-
     /**
      * Sample music.
      */
@@ -96,6 +96,12 @@ public class Container {
     public static final String politicanViews[] = { "Anarchism", "Communism",
             "Conservatism", "Environmentalism", "Feminism", "Liberalism",
             "Nationalism", "Religious ideologies", "Socialism", "Marxism" };
+
+    /**
+     * Sample positions.
+     */
+    public static final String positions[] = { "boss", "worker", "CEO",
+            "admin", "peon" };
 
     /**
      * Sample quotations.

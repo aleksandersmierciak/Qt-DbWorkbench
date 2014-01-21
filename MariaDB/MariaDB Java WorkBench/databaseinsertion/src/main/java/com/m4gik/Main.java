@@ -11,6 +11,7 @@ import com.m4gik.common.GroupMembership;
 import com.m4gik.common.Location;
 import com.m4gik.common.Profile;
 import com.m4gik.common.UserStatus;
+import com.m4gik.common.WorkPlace;
 import com.m4gik.database.MariaDBConnection;
 
 /**
@@ -57,9 +58,11 @@ public class Main {
         EventMembership eventMembership = new EventMembership(amount);
         eventMembership.insertRandomData();
 
-        FriendRelation friendRelation = new FriendRelation(amount
-                + (amount * 30));
+        FriendRelation friendRelation = new FriendRelation(amount);
         friendRelation.insertRandomData();
+
+        WorkPlace workPlace = new WorkPlace(amount);
+        workPlace.insertRandomData();
 
         long end_time = System.nanoTime();
         logger.info("Total operation time: "
