@@ -3,7 +3,7 @@ package com.m4gik.common;
 import java.util.Locale;
 
 /**
- * This class containts all static fields, for generating radnom data.
+ * This class contains all static fields, for generating random data.
  * 
  * @author Michał Szczygieł <michal.szczygiel@wp.pl>
  * 
