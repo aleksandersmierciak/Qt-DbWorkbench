@@ -57,6 +57,12 @@ public class Container {
     public static final String[] firstNames = { "Peter", "Alice", "Joshua",
             "Mike", "Olivia", "Nina", "Alex", "Rita", "Dan", "Umberto",
             "Henrik", "Rene", "Lisa", "Marge", "Michał" };
+
+    /**
+     * Sample group types.
+     */
+    public static final String groupTypes[] = { "open", "private", "public",
+            "closed" };
     /**
      * Sample last names.
      */
