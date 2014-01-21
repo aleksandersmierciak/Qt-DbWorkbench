@@ -175,7 +175,7 @@ public class Group implements Insertion {
      * @throws FileNotFoundException
      */
     public FileInputStream getPicture() throws FileNotFoundException {
-        File file = new File("image.jpg");
+        File file = new File("resources/image.jpg");
         picture = new FileInputStream(file);
         return picture;
     }

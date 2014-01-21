@@ -32,6 +32,7 @@ public class Main {
      */
     private static void fillDatabase(Integer amount) throws SQLException {
         long start_time = System.nanoTime();
+
         UserStatus userStatus = new UserStatus(amount / 10);
         userStatus.insertRandomData();
 
