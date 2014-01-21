@@ -3,6 +3,7 @@ package com.m4gik.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,6 +61,8 @@ public class Event implements Insertion {
 
     private String eventType;
 
+    private File file = new File("resources/image.jpg");
+
     private String host;
 
     private Integer location;
@@ -83,6 +86,11 @@ public class Event implements Insertion {
     public Event(Integer maxInserts) throws SQLException {
         eventId = MariaDBConnection.findFreeId(MAX_EVENT_ID);
         setMaxInserts(maxInserts);
+        try {
+            picture = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -116,6 +124,8 @@ public class Event implements Insertion {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -236,8 +246,6 @@ public class Event implements Insertion {
      * @throws FileNotFoundException
      */
     public FileInputStream getPicture() throws FileNotFoundException {
-        File file = new File("resources/image.jpg");
-        picture = new FileInputStream(file);
         return picture;
     }
 

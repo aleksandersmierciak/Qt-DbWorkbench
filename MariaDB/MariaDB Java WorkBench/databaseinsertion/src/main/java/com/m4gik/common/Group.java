@@ -3,6 +3,7 @@ package com.m4gik.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,6 +48,8 @@ public class Group implements Insertion {
 
     private String description;
 
+    private File file = new File("resources/image.jpg");
+
     private Integer groupId;
 
     private String groupType;
@@ -74,6 +77,11 @@ public class Group implements Insertion {
     public Group(Integer maxInserts) throws SQLException {
         this.groupId = MariaDBConnection.findFreeId(MAX_GROUP_ID);
         setMaxInserts(maxInserts);
+        try {
+            picture = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -100,6 +108,8 @@ public class Group implements Insertion {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -175,8 +185,6 @@ public class Group implements Insertion {
      * @throws FileNotFoundException
      */
     public FileInputStream getPicture() throws FileNotFoundException {
-        File file = new File("resources/image.jpg");
-        picture = new FileInputStream(file);
         return picture;
     }
 

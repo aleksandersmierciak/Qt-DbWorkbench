@@ -27,7 +27,7 @@ public class MariaDBConnection {
     /**
      * This filed represents the name for database.
      */
-    public static final String DATABASE_NAME = "`mszczygiel_ZTBD`";
+    public static final String DATABASE_NAME = "`mszczygiel_ZTBD_test`";
 
     /**
      * To keep one instance of MariaDBConnection class.
